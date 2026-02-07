@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mussawira by Bint-e-Farrukh - Custom Portraits & Original Art</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <h1>Mussawira</h1>
+            <span class="urdu-text">مصورہ از بنت فرخ</span>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li>
+            <a href="#" id="cart-link" onclick="openCart(); return false;" style="position: relative;">
+                🛒 Cart
+                <span id="cart-count" style="
+                    position: absolute;
+                    top: -8px;
+                    right: -10px;
+                    background: #FF4444;
+                    color: white;
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    display: none;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                ">0</span>
+                </a>
+            </li>
+        </ul>
+        <div class="menu-toggle" id="menuToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Where Art Meets Soul</h2>
+            <p class="subtitle">Custom Portraits • Original Paintings • Handcrafted Beauty</p>
+            <p>Transforming your precious moments and cherished memories into timeless works of art. Each stroke tells a story, each color captures an emotion.</p>
+            <a href="#contact" class="cta-button">Commission Your Art</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-header">
+            <h2>About Mussawira</h2>
+            <p>Where passion meets canvas</p>
+        </div>
+        <div class="about-content">
+            <div class="about-image">🎨</div>
+            <p>
+                Welcome to Mussawira by Bint-e-Farrukh, where every brushstroke is infused with passion and creativity. 
+                As an artist dedicated to capturing the essence of beauty in all its forms, I specialize in creating 
+                customized portraits, breathtaking landscapes, and unique acrylic paintings that speak to the heart.
+            </p>
+            <p>
+                My journey as an artist is driven by a deep love for painting and a commitment to bringing your vision 
+                to life. Whether it's a faceless portrait that captures a moment, a landscape that transports you, or 
+                a handmade craft that adds a personal touch to your space, each piece is created with meticulous attention 
+                to detail and genuine care.
+            </p>
+            <p>
+                Let's create something beautiful together. Your story deserves to be told through art.
+            </p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="section-header">
+            <h2>My Services</h2>
+            <p>Bringing your artistic visions to life</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">👤</div>
+                <h3>Custom Portraits</h3>
+                <p>Personalized faceless portraits that capture the essence and emotion of your most treasured moments. Each piece is uniquely crafted to tell your story.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🖼️</div>
+                <h3>Original Paintings</h3>
+                <p>One-of-a-kind acrylic paintings and landscape art pieces that bring beauty and sophistication to any space. Available for purchase or commission.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">✏️</div>
+                <h3>Custom Sketching</h3>
+                <p>Detailed pencil and charcoal sketches that capture intricate details and delicate nuances with precision and artistry.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">✨</div>
+                <h3>Handmade Crafts</h3>
+                <p>Unique, handcrafted decorative pieces and artistic creations that add a personal and artistic touch to your home or make perfect gifts.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <div class="section-header">
+            <h2>Gallery</h2>
+            <p>Explore my collection of available artworks</p>
+        </div>
+        <div class="gallery-filter">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="portraits">Portraits</button>
+            <button class="filter-btn" data-filter="landscapes">Landscapes</button>
+            <button class="filter-btn" data-filter="acrylic">Acrylic Art</button>
+            <button class="filter-btn" data-filter="croatia">Croatia Collection</button>
+            <button class="filter-btn" data-filter="crafts">Handmade Crafts</button>
+        </div>
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Gallery items will be loaded here by JavaScript -->
+            <!-- Placeholder items -->
+            <div class="gallery-item" data-category="portraits">
+                <div class="gallery-placeholder">🎭</div>
+                <div class="gallery-overlay">
+                    <h3>Faceless Portrait</h3>
+                    <p>Custom portrait art</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="landscapes">
+                <div class="gallery-placeholder">🏔️</div>
+                <div class="gallery-overlay">
+                    <h3>Mountain Serenity</h3>
+                    <p>Landscape painting</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="acrylic">
+                <div class="gallery-placeholder">🌸</div>
+                <div class="gallery-overlay">
+                    <h3>Floral Dreams</h3>
+                    <p>Acrylic on canvas</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="portraits">
+                <div class="gallery-placeholder">💑</div>
+                <div class="gallery-overlay">
+                    <h3>Together Forever</h3>
+                    <p>Couple portrait</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="crafts">
+                <div class="gallery-placeholder">🎀</div>
+                <div class="gallery-overlay">
+                    <h3>Handmade Decor</h3>
+                    <p>Decorative craft</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="landscapes">
+                <div class="gallery-placeholder">🌅</div>
+                <div class="gallery-overlay">
+                    <h3>Sunset Bliss</h3>
+                    <p>Landscape art</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+<section id="reviews">
+    <div class="section-header">
+        <h2>Customer Reviews</h2>
+        <p>What our happy customers say</p>
+    </div>
+    
+    <div class="reviews-container">
+        <div class="reviews-grid" id="reviews-grid">
+            <!-- Reviews will load here -->
+            <div class="loading">Loading reviews...</div>
+        </div>
+    </div>
+    
+    <div class="review-form-container">
+        <h3>Leave a Review</h3>
+        <form id="reviewForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="review-name">Your Name</label>
+                    <input type="text" id="review-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="review-email">Email</label>
+                    <input type="email" id="review-email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Rating</label>
+                <div class="star-rating">
+                    <span class="star" data-rating="1">⭐</span>
+                    <span class="star" data-rating="2">⭐</span>
+                    <span class="star" data-rating="3">⭐</span>
+                    <span class="star" data-rating="4">⭐</span>
+                    <span class="star" data-rating="5">⭐</span>
+                </div>
+                <input type="hidden" id="rating" value="5">
+            </div>
+            <div class="form-group">
+                <label for="review-comment">Your Review</label>
+                <textarea id="review-comment" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit Review</button>
+        </form>
+    </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-header">
+            <h2>Get In Touch</h2>
+            <p>Let's create something beautiful together</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Have a project in mind? Want to commission a custom piece? Feel free to reach out through any of the channels below. I'd love to hear from you!</p>
+                
+                <div class="contact-method">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-details">
+                        <h4>Email</h4>
+                        <a href="mailto:mussawira@example.com">mussawira@example.com</a>
+                    </div>
+                </div>
+
+                <div class="contact-method">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-details">
+                        <h4>Phone</h4>
+                        <a href="tel:+923001234567">+92 300 1234567</a>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 3rem;">Follow My Journey</h3>
+                <div class="social-links">
+                    <a href="https://instagram.com/mussawira" class="social-link" target="_blank" title="Instagram">📷</a>
+                    <a href="https://tiktok.com/@mussawira" class="social-link" target="_blank" title="TikTok">🎵</a>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form id="contactForm" onsubmit="return false;">
+    <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required placeholder="Enter your name">
+    </div>
+    <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+    </div>
+    <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" required placeholder="What can I help you with?">
+    </div>
+    <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required placeholder="Tell me about your project or inquiry..."></textarea>
+    </div>
+    <button type="button" class="submit-btn" id="submitBtn">Send Message</button>
+</form>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Modal -->
+<div id="cart-modal" class="modal">
+    <div class="modal-content cart-modal-content">
+        <div class="modal-header">
+            <h2>🛒 Shopping Cart</h2>
+            <span class="close" onclick="closeCart()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div id="cart-items">
+                <!-- Cart items will load here -->
+            </div>
+            <div class="cart-summary">
+                <div class="cart-total">
+                    <strong>Total:</strong>
+                    <strong id="cart-total">PKR 0</strong>
+                </div>
+                <button onclick="proceedToCheckout()" class="checkout-btn">Proceed to Checkout</button>
+                <button onclick="clearCartConfirm()" class="clear-cart-btn">Clear Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Checkout Modal -->
+<div id="checkout-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>📦 Checkout</h2>
+            <span class="close" onclick="closeCheckout()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label for="checkout-name">Full Name *</label>
+                    <input type="text" id="checkout-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkout-email">Email *</label>
+                    <input type="email" id="checkout-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkout-phone">Phone Number *</label>
+                    <input type="tel" id="checkout-phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="checkout-address">Shipping Address *</label>
+                    <textarea id="checkout-address" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="payment-method">Payment Method *</label>
+                    <select id="payment-method" required>
+                        <option value="">Select payment method</option>
+                        <option value="cod">Cash on Delivery</option>
+                        <option value="bank">Bank Transfer</option>
+                        <option value="jazzcash">JazzCash</option>
+                        <option value="easypaisa">Easypaisa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="checkout-notes">Additional Notes</label>
+                    <textarea id="checkout-notes" rows="2"></textarea>
+                </div>
+                <div class="checkout-summary">
+                    <h3>Order Summary</h3>
+                    <div id="checkout-items"></div>
+                    <div class="checkout-total">
+                        <strong>Total Amount:</strong>
+                        <strong id="checkout-total">PKR 0</strong>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Place Order</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="urdu-footer">مصورہ از بنت فرخ</p>
+        <p>&copy; 2026 Mussawira by Bint-e-Farrukh. All rights reserved. Created with ♥</p>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/shop.js"></script>
+    <script src="js/reviews.js"></script>
+</body>
+</html>
