@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('✅ Contact form script loaded!');
     
-    const API_URL = 'http://localhost:5000/api';
+    const API_URL = 'https://mussawira-backend.vercel.app/api';
     const submitBtn = document.getElementById('submitBtn');
     const contactForm = document.getElementById('contactForm');
     

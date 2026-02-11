@@ -3,7 +3,7 @@
 // ===================================
 
 // API Configuration
-const API_URL = 'http://localhost:5000/api'; // Change this when deploying
+const API_URL = 'https://mussawira-backend.vercel.app/api'; // Change this when deploying
 
 // Load gallery items from backend
 // Update loadGallery function

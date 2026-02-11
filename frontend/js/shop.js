@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://mussawira-backend.vercel.app/api';
 
 // Add painting to cart from gallery
 async function addToCartFromGallery(paintingId) {
