@@ -1,30 +1,20 @@
 const API_URL = 'https://mussawira-backend.vercel.app/api';
 
-// Add painting to cart from gallery
-async function addToCartFromGallery(paintingId) {
-    try {
-        const response = await fetch(`${API_URL}/gallery/${paintingId}`);
-        const data = await response.json();
-        
-        if (data.success) {
-            cart.addItem(data.data);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Could not add to cart');
-    }
-}
-
 // Open cart modal
 function openCart() {
     const modal = document.getElementById('cart-modal');
-    modal.style.display = 'block';
-    renderCartItems();
+    if (modal) {
+        modal.style.display = 'block';
+        renderCartItems();
+    }
 }
 
 // Close cart modal
 function closeCart() {
-    document.getElementById('cart-modal').style.display = 'none';
+    const modal = document.getElementById('cart-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
 // Render cart items
@@ -32,60 +22,91 @@ function renderCartItems() {
     const cartItemsDiv = document.getElementById('cart-items');
     const cartTotalDiv = document.getElementById('cart-total');
     
-    if (cart.items.length === 0) {
-        cartItemsDiv.innerHTML = '<p style="text-align: center; padding: 2rem;">Your cart is empty</p>';
+    if (!cartItemsDiv || !cartTotalDiv) return;
+    
+    const cart = JSON.parse(localStorage.getItem('mussawira_cart') || '[]');
+    
+    if (cart.length === 0) {
+        cartItemsDiv.innerHTML = `
+            <div style="text-align: center; padding: 3rem;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🛒</div>
+                <p style="color: var(--medium-text); font-size: 1.2rem;">Your cart is empty</p>
+                <p style="color: var(--light-text); margin-top: 0.5rem;">Add some beautiful artworks!</p>
+            </div>
+        `;
         cartTotalDiv.textContent = 'PKR 0';
         return;
     }
     
-    cartItemsDiv.innerHTML = cart.items.map(item => `
-        <div class="cart-item">
-            <img src="${API_URL.replace('/api', '')}${item.imageUrl}" alt="${item.title}">
-            <div class="cart-item-details">
-                <h4>${item.title}</h4>
-                <p>PKR ${item.price.toLocaleString()}</p>
-            </div>
-            <div class="cart-item-quantity">
-                <button onclick="updateCartQuantity('${item._id}', ${item.quantity - 1})">-</button>
-                <span>${item.quantity}</span>
-                <button onclick="updateCartQuantity('${item._id}', ${item.quantity + 1})">+</button>
-            </div>
-            <div class="cart-item-total">
-                <p>PKR ${(item.price * item.quantity).toLocaleString()}</p>
-            </div>
-            <button class="remove-item-btn" onclick="removeFromCart('${item._id}')">🗑️</button>
-        </div>
-    `).join('');
+    let total = 0;
     
-    cartTotalDiv.textContent = `PKR ${cart.getTotal().toLocaleString()}`;
+    cartItemsDiv.innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        return `
+            <div class="cart-item" style="display: grid; grid-template-columns: 80px 1fr auto; gap: 1rem; align-items: center; padding: 1rem; background: #fff5f7; border-radius: 10px; margin-bottom: 1rem;">
+                <img src="${item.imageUrl}" alt="${item.title}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">
+                <div>
+                    <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">${item.title}</h4>
+                    <p style="margin: 0; color: #FFB6C1; font-weight: 600;">PKR ${item.price.toLocaleString()}</p>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button onclick="updateCartQuantity('${item._id}', ${item.quantity - 1})" style="width: 30px; height: 30px; border: none; background: #FFB6C1; color: white; border-radius: 5px; cursor: pointer; font-size: 1.2rem;">-</button>
+                        <span style="min-width: 30px; text-align: center; font-weight: 600;">${item.quantity}</span>
+                        <button onclick="updateCartQuantity('${item._id}', ${item.quantity + 1})" style="width: 30px; height: 30px; border: none; background: #FFB6C1; color: white; border-radius: 5px; cursor: pointer; font-size: 1.2rem;">+</button>
+                    </div>
+                </div>
+                <div style="text-align: right;">
+                    <p style="font-weight: 600; margin-bottom: 0.5rem;">PKR ${itemTotal.toLocaleString()}</p>
+                    <button onclick="removeFromCart('${item._id}')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; opacity: 0.6;">🗑️</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    cartTotalDiv.textContent = `PKR ${total.toLocaleString()}`;
 }
 
 // Update cart quantity
-function updateCartQuantity(paintingId, newQuantity) {
+function updateCartQuantity(id, newQuantity) {
     if (newQuantity < 1) return;
-    cart.updateQuantity(paintingId, newQuantity);
-    renderCartItems();
+    
+    let cart = JSON.parse(localStorage.getItem('mussawira_cart') || '[]');
+    const item = cart.find(item => item._id === id);
+    
+    if (item) {
+        item.quantity = newQuantity;
+        localStorage.setItem('mussawira_cart', JSON.stringify(cart));
+        renderCartItems();
+        updateCartBadge();
+    }
 }
 
 // Remove from cart
-function removeFromCart(paintingId) {
+function removeFromCart(id) {
     if (confirm('Remove this item from cart?')) {
-        cart.removeItem(paintingId);
+        let cart = JSON.parse(localStorage.getItem('mussawira_cart') || '[]');
+        cart = cart.filter(item => item._id !== id);
+        localStorage.setItem('mussawira_cart', JSON.stringify(cart));
         renderCartItems();
+        updateCartBadge();
     }
 }
 
 // Clear cart
 function clearCartConfirm() {
     if (confirm('Clear all items from cart?')) {
-        cart.clearCart();
+        localStorage.setItem('mussawira_cart', '[]');
         renderCartItems();
+        updateCartBadge();
     }
 }
 
 // Proceed to checkout
 function proceedToCheckout() {
-    if (cart.items.length === 0) {
+    const cart = JSON.parse(localStorage.getItem('mussawira_cart') || '[]');
+    
+    if (cart.length === 0) {
         alert('Your cart is empty!');
         return;
     }
@@ -93,14 +114,18 @@ function proceedToCheckout() {
     closeCart();
     
     const checkoutModal = document.getElementById('checkout-modal');
-    checkoutModal.style.display = 'block';
-    
-    renderCheckoutSummary();
+    if (checkoutModal) {
+        checkoutModal.style.display = 'block';
+        renderCheckoutSummary();
+    }
 }
 
 // Close checkout
 function closeCheckout() {
-    document.getElementById('checkout-modal').style.display = 'none';
+    const modal = document.getElementById('checkout-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
 // Render checkout summary
@@ -108,14 +133,35 @@ function renderCheckoutSummary() {
     const checkoutItemsDiv = document.getElementById('checkout-items');
     const checkoutTotalDiv = document.getElementById('checkout-total');
     
-    checkoutItemsDiv.innerHTML = cart.items.map(item => `
-        <div class="checkout-item">
-            <span>${item.title} x ${item.quantity}</span>
-            <span>PKR ${(item.price * item.quantity).toLocaleString()}</span>
-        </div>
-    `).join('');
+    if (!checkoutItemsDiv || !checkoutTotalDiv) return;
     
-    checkoutTotalDiv.textContent = `PKR ${cart.getTotal().toLocaleString()}`;
+    const cart = JSON.parse(localStorage.getItem('mussawira_cart') || '[]');
+    let total = 0;
+    
+    checkoutItemsDiv.innerHTML = cart.map(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        
+        return `
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #ffe8f0;">
+                <span>${item.title} × ${item.quantity}</span>
+                <span style="font-weight: 600;">PKR ${itemTotal.toLocaleString()}</span>
+            </div>
+        `;
+    }).join('');
+    
+    checkoutTotalDiv.textContent = `PKR ${total.toLocaleString()}`;
+}
+
+// Update cart badge
+function updateCartBadge() {
+    const cartBadge = document.getElementById('cart-count');
+    if (cartBadge) {
+        const cart = JSON.parse(localStorage.getItem('mussawira_cart') || '[]');
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartBadge.textContent = totalItems;
+        cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+    }
 }
 
 // Handle checkout form submission
@@ -126,6 +172,8 @@ document.addEventListener('DOMContentLoaded', function() {
         checkoutForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const cart = JSON.parse(localStorage.getItem('mussawira_cart') || '[]');
+            
             const orderData = {
                 customerName: document.getElementById('checkout-name').value,
                 customerEmail: document.getElementById('checkout-email').value,
@@ -133,15 +181,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 shippingAddress: document.getElementById('checkout-address').value,
                 paymentMethod: document.getElementById('payment-method').value,
                 notes: document.getElementById('checkout-notes').value,
-                items: cart.items.map(item => ({
+                items: cart.map(item => ({
                     paintingId: item._id,
                     quantity: item.quantity
                 }))
             };
             
-            const submitBtn = checkoutForm.querySelector('button[type="submit"]');
+            const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-            submitBtn.textContent = 'Processing...';
+            submitBtn.textContent = '⏳ Processing...';
             
             try {
                 const response = await fetch(`${API_URL}/orders`, {
@@ -153,10 +201,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
                 
                 if (data.success) {
-                    alert('✅ ' + data.message + '\n\nOrder ID: ' + data.data._id);
-                    cart.clearCart();
+                    alert('✅ ' + data.message + '\n\nOrder ID: ' + data.data._id + '\n\nWe will contact you soon!');
+                    
+                    // Clear cart
+                    localStorage.setItem('mussawira_cart', '[]');
+                    updateCartBadge();
+                    
+                    // Close checkout
                     closeCheckout();
-                    checkoutForm.reset();
+                    
+                    // Reset form
+                    this.reset();
                 } else {
                     alert('❌ ' + data.message);
                 }
@@ -169,6 +224,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Update cart badge on page load
+    updateCartBadge();
 });
 
 // Close modals when clicking outside

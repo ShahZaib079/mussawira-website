@@ -16,7 +16,7 @@ router.get('/:id', getPainting); // ADD THIS
 
 // Admin routes
 router.post('/', checkAuth, upload.single('image'), createPainting);
-router.put('/:id', checkAuth, upload.single('image'), updatePainting);
+// router.put('/:id', checkAuth, upload.single('image'), updatePainting);
 router.delete('/:id', checkAuth, deletePainting);
 
 module.exports = router;
